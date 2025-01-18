@@ -1,1 +1,22 @@
-# Kubernetes [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0) [![codecov](https://codecov.io/gh/nasa/openmct/branch/master/graph/badge.svg?token=7DQIipp3ej)](https://codecov.io/gh/nasa/openmct) [![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/b2e34b17/openmct) [![npm version](https://img.shields.io/npm/v/openmct.svg)](https://www.npmjs.com/package/openmct) ![CodeQL](https://github.com/nasa/openmct/workflows/CodeQL/badge.svg)
+# Kubernetes
+
+![Docker](https://img.shields.io/badge/docker-2496ED?logo=docker&logoColor=white&style=flat)
+![PHP](https://img.shields.io/badge/php-777BB4?logo=php&logoColor=white&style=flat)
+
+Descripción del proyecto...
+
+## Instalación
+
+Instrucciones de instalación...
+
+## Uso
+
+Instrucciones de uso...
+
+## Contribuir
+
+Guía para contribuir....
+
+## Licencia
+
+Información de la licencia...
