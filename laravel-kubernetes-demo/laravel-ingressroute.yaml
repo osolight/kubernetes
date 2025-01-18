@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: laravel-demo-ingressroute
+  namespace: laravel-demo
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`crm.icetechnology.com.ve`)
+      kind: Rule
+      services:
+        - name: laravel-service
+          port: 80
+  tls:
+    secretName: laravel-demo-certificate-secret 

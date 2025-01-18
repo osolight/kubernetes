@@ -1,0 +1,46 @@
+# my-laravel-app.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-laravel-app
+  labels:
+    app: my-laravel-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-laravel-app
+  template:
+    metadata:
+      labels:
+        app: my-laravel-app
+    spec:
+      containers:
+      - name: my-laravel-app
+        image: my-laravel-app
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          value: mysql
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_DATABASE
+          value: my_database
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"

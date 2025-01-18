@@ -1,0 +1,3 @@
+CREATE DATABASE prueba;
+CREATE USER prueba_user WITH ENCRYPTED PASSWORD 'prueba_password';
+GRANT ALL PRIVILEGES ON DATABASE prueba TO prueba_user;

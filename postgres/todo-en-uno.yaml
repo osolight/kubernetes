@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgres
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgresql-pv
+  namespace: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      initContainers:
+        - name: init-script
+          image: postgres:14
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until pg_isready -h localhost -p 5432; do
+                echo "Waiting for PostgreSQL to be ready..."
+                sleep 2
+              done
+              psql -U postgres -f /docker-entrypoint-initdb.d/create-db.sql
+          env:
+            - name: PGPASSWORD
+              value: postgres_password
+          volumeMounts:
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d
+      containers:
+        - name: postgres
+          image: postgres:14
+          resources:
+            limits:
+              cpu: "1"
+              memory: "4Gi"
+            requests:
+              cpu: "1"
+              memory: "4Gi"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres_password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: postgresql-pv
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgresql-pv
+          persistentVolumeClaim:
+            claimName: postgresql-pv
+        - name: init-sql
+          configMap:
+            name: create-db-sql
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres

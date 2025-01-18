@@ -1,0 +1,21 @@
+image:
+  tag: 16
+
+auth:
+  enablePostgresUser: true
+  postgresPassword: "123321..."
+  username: "admin"
+  password: "pegasus"
+  database: "example_db"
+
+primary:
+  persistence:
+    enabled: true
+    existingClaim: "postgresql-pvc"
+
+volumePermissions:
+  enabled: true
+
+initdbScripts:
+  init_db.sql: |
+    CREATE DATABASE grupoamanecer_db;

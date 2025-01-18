@@ -1,0 +1,17 @@
+global:
+  postgresql:
+    postgresqlDatabase: postgres
+    postgresqlUsername: postgres
+    postgresqlPassword: postgres_password
+
+primary:
+  extraEnvVars:
+    - name: POSTGRES_MULTIPLE_DATABASES
+      value: amanecer
+    - name: POSTGRES_USER_dparra
+      value: dparra
+    - name: POSTGRES_PASSWORD_dparra
+      value: 123321
+
+image:
+  tag: 16.0.0

@@ -1,0 +1,34 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+  namespace: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-app
+  template:
+    metadata:
+      name: wordpress-pod
+      namespace: wordpress
+      labels:
+        app: wordpress-app
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress:latest
+          envFrom:
+            - configMapRef:
+                name: wordpress-cm
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          ports:  
+            - name: http-port
+              containerPort: 80
